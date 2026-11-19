@@ -1,7 +1,7 @@
+
 package lms;
 
-import lms.model.Book;
-import lms.model.Member;
+import lms.model.*;
 import lms.service.Library;
 
 public class Main {
@@ -12,53 +12,55 @@ public class Main {
 
 
         Book book1 = new Book(
-                "Clean Code",
-                "Robert C. Martin",
-                "978-0132350884"
+                "B001", "Clean Code", "Robert C. Martin"
         );
 
         Book book2 = new Book(
-                "Effective Java",
-                "Joshua Bloch",
-                "978-0134685991"
-        );
-
-        Book book3 = new Book(
-                "The Pragmatic Programmer",
-                "Hunt & Thomas",
-                "978-0135957059"
+                "B002", "Effective Java", "Joshua Bloch"
         );
 
 
-        library.addBook(book1);
-        library.addBook(book2);
-        library.addBook(book3);
+        DVD dvd1 = new DVD(
+                "D001", "Java Tutorial", 120
+        );
 
 
-        Member member1 = new Member("M001", "Nadeesha Perera");
-        Member member2 = new Member("M002", "Kasun Silva");
+        library.addItem(book1);
+        library.addItem(book2);
+        library.addItem(dvd1);
 
 
-        library.addMember(member1);
-        library.addMember(member2);
+        Student student = new Student(
+                "S001", "Nadeesha Perera"
+        );
+
+        Staff staff = new Staff(
+                "ST001", "Kasun Silva"
+        );
+
+        library.addMember(student);
+        library.addMember(staff);
 
 
-        library.listBooks();
+        library.listItems();
+
+
         library.listMembers();
 
-        try {
-            Book invalidBook = new Book(
-                    "",
-                    "Nobody",
-                    "000-0000000000"
-            );
+        System.out.println("--- Late Fees ---");
 
-            library.addBook(invalidBook);
+        for (LibraryItem item : library.getItems()) {
 
-        } catch (IllegalArgumentException e) {
             System.out.println(
-                    "Rejected invalid book: " + e.getMessage()
+                    item.getTitle() + ": Rs. " +
+                            item.calculateLateFee(3)
             );
         }
+
+
+        System.out.println("--- Streaming Test ---");
+
+        library.streamIfPossible(book1);
+        library.streamIfPossible(dvd1);
     }
 }

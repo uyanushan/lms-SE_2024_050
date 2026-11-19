@@ -1,18 +1,28 @@
+
 package lms.service;
 
-import lms.model.Book;
-import lms.model.Member;
-
+import lms.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Library {
-    private final List<Book> books = new ArrayList<>();
+
+    private final List<LibraryItem> items = new ArrayList<>();
     private final List<Member> members = new ArrayList<>();
 
 
-    public void addBook(Book book) {
-        books.add(book);
+    public void addItem(LibraryItem item) {
+        items.add(item);
+    }
+
+
+    public void addItem(Book book) {
+        items.add(book);
+    }
+
+
+    public void addItem(DVD dvd) {
+        items.add(dvd);
     }
 
 
@@ -21,29 +31,48 @@ public class Library {
     }
 
 
-    public void listBooks() {
-        System.out.println("--- Books in the library ---");
+    public void listItems() {
+        System.out.println("--- Library Items ---");
 
-        for (Book book : books) {
-            System.out.println(book.toString());
+        for (LibraryItem item : items) {
+            System.out.println(item);
         }
     }
-
 
     public void listMembers() {
-        System.out.println("--- Registered members ---");
+        System.out.println("--- Library Members ---");
 
         for (Member member : members) {
-            System.out.println(member.toString());
+            System.out.println(member);
         }
     }
 
 
-    public List<Book> getBooks() {
-        return books;
+    public List<LibraryItem> getItems() {
+        return items;
     }
+
 
     public List<Member> getMembers() {
         return members;
+    }
+
+
+    public void streamIfPossible(LibraryItem item) {
+
+        if (item instanceof DVD dvd) {
+
+            System.out.println(
+                    "Streaming " + dvd.getTitle() +
+                            " (" + dvd.getDurationMinutes() + " min)"
+            );
+
+        } else {
+
+            System.out.println(
+                    item.getTitle() +
+                            " cannot be streamed - it isn't a DVD."
+            );
+        }
     }
 }
