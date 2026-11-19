@@ -5,10 +5,16 @@ public class Member {
     private String memberId;
     private String name;
     private int borrowedCount;
+    private int borrowLimit;
 
     public Member(String memberId, String name) {
+        this(memberId, name, 5);
+    }
+
+    public Member(String memberId, String name, int borrowLimit) {
         setMemberId(memberId);
         setName(name);
+        setBorrowLimit(borrowLimit);
         setBorrowedCount(0);
     }
 
@@ -24,39 +30,39 @@ public class Member {
         return borrowedCount;
     }
 
+    public int getBorrowLimit() {
+        return borrowLimit;
+    }
+
     public void setMemberId(String memberId) {
         if (memberId == null || memberId.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Member ID cannot be blank");
+            throw new IllegalArgumentException("Member ID cannot be blank");
         }
         this.memberId = memberId;
     }
 
     public void setName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Name cannot be blank");
+            throw new IllegalArgumentException("Name cannot be blank");
         }
         this.name = name;
     }
 
     public void setBorrowedCount(int borrowedCount) {
         if (borrowedCount < 0) {
-            throw new IllegalArgumentException(
-                    "Borrowed count cannot be negative");
+            throw new IllegalArgumentException("Count cannot be negative");
         }
         this.borrowedCount = borrowedCount;
     }
 
-
-    public void incrementBorrowedCount() {
-        setBorrowedCount(this.borrowedCount + 1);
+    public void setBorrowLimit(int borrowLimit) {
+        if (borrowLimit < 0) {
+            throw new IllegalArgumentException("Limit cannot be negative");
+        }
+        this.borrowLimit = borrowLimit;
     }
 
-    @Override
-    public String toString() {
-        return "Member{id='" + memberId +
-                "', name='" + name +
-                "', borrowedCount=" + borrowedCount + "}";
+    public void incrementBorrowedCount() {
+        setBorrowedCount(borrowedCount + 1);
     }
 }
