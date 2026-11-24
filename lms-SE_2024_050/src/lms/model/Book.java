@@ -1,12 +1,14 @@
 package lms.model;
 
-public class Book extends LibraryItem {
+public class Book extends LibraryItem implements Reservable {
 
     private String author;
+    private Member reservedBy;
 
     public Book(String id, String title, String author) {
         super(id, title);
         setAuthor(author);
+        this.reservedBy = null;
     }
 
     public String getAuthor() {
@@ -23,5 +25,32 @@ public class Book extends LibraryItem {
     @Override
     public double calculateLateFee(int daysLate) {
         return daysLate * 10.0;
+    }
+
+    // Reserve book
+    @Override
+    public void reserve(Member member) {
+        reservedBy = member;
+
+        System.out.println(
+                getTitle() + " reserved for " + member.getName()
+        );
+    }
+
+    @Override
+    public void cancelReservation() {
+        reservedBy = null;
+    }
+
+    @Override
+    public boolean isReserved() {
+        return reservedBy != null;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{id='" + getId() +
+                "', title='" + getTitle() +
+                "', author='" + author + "'}";
     }
 }

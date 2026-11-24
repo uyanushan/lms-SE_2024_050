@@ -1,4 +1,3 @@
-
 package lms;
 
 import lms.model.*;
@@ -11,56 +10,73 @@ public class Main {
         Library library = new Library();
 
 
-        Book book1 = new Book(
-                "B001", "Clean Code", "Robert C. Martin"
+        Book book = new Book(
+                "B001",
+                "Clean Code",
+                "Robert C. Martin"
         );
 
-        Book book2 = new Book(
-                "B002", "Effective Java", "Joshua Bloch"
+        DVD dvd = new DVD(
+                "D001",
+                "Introduction to Algorithms",
+                120
+        );
+
+        Magazine magazine = new Magazine(
+                "M001",
+                "Software Weekly",
+                25
         );
 
 
-        DVD dvd1 = new DVD(
-                "D001", "Java Tutorial", 120
-        );
-
-
-        library.addItem(book1);
-        library.addItem(book2);
-        library.addItem(dvd1);
-
+        library.addItem(book);
+        library.addItem(dvd);
+        library.addItem(magazine);
 
         Student student = new Student(
-                "S001", "Nadeesha Perera"
+                "S001",
+                "Nadeesha Perera"
         );
 
         Staff staff = new Staff(
-                "ST001", "Kasun Silva"
+                "ST001",
+                "Mr. Kasun Silva"
         );
+
 
         library.addMember(student);
         library.addMember(staff);
 
-
-        library.listItems();
-
-
-        library.listMembers();
-
-        System.out.println("--- Late Fees ---");
+        System.out.println(
+                "--- Late fees if 3 day(s) late ---"
+        );
 
         for (LibraryItem item : library.getItems()) {
 
             System.out.println(
-                    item.getTitle() + ": Rs. " +
+                    item.getTitle() + ": " +
                             item.calculateLateFee(3)
             );
         }
 
 
-        System.out.println("--- Streaming Test ---");
+        System.out.println("--- Loans ---");
 
-        library.streamIfPossible(book1);
-        library.streamIfPossible(dvd1);
+        library.lend(book, student);
+
+        library.lend(book, staff);
+
+        library.lend(dvd, staff);
+
+        library.lend(magazine, staff);
+
+        System.out.println("--- Reservations ---");
+
+        library.reserveIfPossible(book, staff);
+
+        library.reserveIfPossible(dvd, staff);
+
+
+        library.printMembersByActivity();
     }
 }

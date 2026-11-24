@@ -1,6 +1,6 @@
 package lms.model;
 
-public class LibraryItem {
+public abstract class LibraryItem implements Loanable {
 
     private String id;
     private String title;
@@ -12,6 +12,7 @@ public class LibraryItem {
         this.isBorrowed = false;
     }
 
+    // Getters
     public String getId() {
         return id;
     }
@@ -24,6 +25,7 @@ public class LibraryItem {
         return isBorrowed;
     }
 
+    // Setters
     public void setId(String id) {
         if (id == null || id.isBlank()) {
             throw new IllegalArgumentException("ID cannot be blank");
@@ -38,11 +40,35 @@ public class LibraryItem {
         this.title = title;
     }
 
-    public void setBorrowed(boolean borrowed) {
-        this.isBorrowed = borrowed;
+
+    @Override
+    public void loan(Member member) {
+
+        if (isBorrowed) {
+            System.out.println(getTitle() + " is already on loan.");
+        }
+        else if (!member.canBorrow()) {
+            System.out.println(
+                    member.getName() + " has reached the borrowing limit."
+            );
+        }
+        else {
+            isBorrowed = true;
+            member.incrementBorrowedCount();
+
+            System.out.println(
+                    getTitle() + " loaned to " + member.getName()
+            );
+        }
     }
 
-    public double calculateLateFee(int daysLate) {
-        return 0.0;
+
+    @Override
+    public void returnItem() {
+        isBorrowed = false;
+        System.out.println(getTitle() + " returned.");
     }
+
+
+    public abstract double calculateLateFee(int daysLate);
 }

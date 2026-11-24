@@ -16,13 +16,22 @@ public class DVD extends LibraryItem {
     public void setDurationMinutes(int durationMinutes) {
         if (durationMinutes <= 0) {
             throw new IllegalArgumentException(
-                    "Duration must be positive");
+                    "Duration must be positive"
+            );
         }
+
         this.durationMinutes = durationMinutes;
     }
 
     @Override
     public double calculateLateFee(int daysLate) {
         return daysLate * 25.0;
+    }
+
+    @Override
+    public String toString() {
+        return "DVD{id='" + getId() +
+                "', title='" + getTitle() +
+                "', duration=" + durationMinutes + "}";
     }
 }
